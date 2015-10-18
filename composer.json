@@ -1,0 +1,23 @@
+{
+    "name": "henrikheil/PEAR_HTML_TreeMenu",
+    "type": "library",
+    "description": "Fork of PEAR HTML_TreeMenu",
+    "keywords": ["php", "pear"],
+    "homepage": "https://github.com/henrikheil/PEAR_HTML_TreeMenu",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Henrik Heil",
+            "email": "henrik.heil@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=4"   
+    },
+    "autoload": {    
+        "classmap": [
+            "HTML/"
+        ]
+    }  
+}
