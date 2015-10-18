@@ -961,14 +961,13 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
                        'if (link) {this.action = link; return true} else ' .
                        'return false"><select name="%s">' .
                        '<option value="">%s</option>%s</select> ' .
-                       '<input type="submit" value="%s" /></form>',
+                       '</form>',
                        $this->linkTarget,
                        'HTML_TreeMenu_Listbox_' . ++$count,
                        'HTML_TreeMenu_Listbox_' . $count,
                        'HTML_TreeMenu_Listbox_' . $count,
                        $this->promoText,
-                       $nodeHTML,
-                       $this->submitText);
+                       $nodeHTML);
     }
 
     /**
