@@ -920,7 +920,7 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
      *
      * @access public
      */
-    function HTML_TreeMenu_Listbox($structure, $options = array())
+    function HTML_TreeMenu_Listbox($structure, $options = array(), $elementID = null, $addHTML = null)
     {
         $this->HTML_TreeMenu_Presentation($structure);
 
@@ -929,6 +929,9 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
         $this->indentNum  = 2;
         $this->linkTarget = '_self';
         $this->submitText = 'Go';
+        $this->activeNode = 0;
+        $this->elementID  = $elementID;
+        $this->addHTML    = $addHTML;        
 
         foreach ($options as $option => $value) {
             $this->$option = $value;
@@ -943,6 +946,13 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
      */
     function toHTML()
     {
+        if (is_null($this->elementID)) {
+            $elementID = "catid";
+        }
+        else {
+            $elementID = $this->elementID;
+        }
+
         static $count = 0;
 
         $nodeHTML = '';
@@ -956,16 +966,9 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
             }
         }
 
-        return sprintf('<form target="%s" action="" onsubmit="var link = ' .
-                       'this.%s.options[this.%s.selectedIndex].value; ' .
-                       'if (link) {this.action = link; return true} else ' .
-                       'return false"><select name="%s">' .
-                       '<option value="">%s</option>%s</select> ' .
-                       '</form>',
-                       $this->linkTarget,
-                       'HTML_TreeMenu_Listbox_' . ++$count,
-                       'HTML_TreeMenu_Listbox_' . $count,
-                       'HTML_TreeMenu_Listbox_' . $count,
+        return sprintf('<select id="' . $elementID . '" ' . $this->addHTML . 
+                       'name="%s"><option value="choose">%s</option>%s</select>',
+                       $elementID,
                        $this->promoText,
                        $nodeHTML);
     }
@@ -981,10 +984,14 @@ class HTML_TreeMenu_Listbox extends HTML_TreeMenu_Presentation
      */
     function _nodeToHTML($node, $prefix = '')
     {
-        $html = sprintf('<option value="%s">%s%s</option>',
-                        $node->link,
-                        $prefix,
-                        $node->text);
+        if ($this->activeNode == $node->link) {
+            $sel = " selected = 'selected'";
+        }
+        else {
+            $sel = "";
+        }
+
+        $html = sprintf('<option%s value="%s">%s%s</option>', $sel, $node->link, $prefix, $node->text);
 
         /*
          * Loop through subnodes
